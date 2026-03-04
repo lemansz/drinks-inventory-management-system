@@ -2,15 +2,22 @@
 
 namespace App\Http\Controllers;
 
-
 use App\Models\Sale;
-
-
+use App\Services\StockService;
 
 class DashboardController extends Controller
 {
+
+    private readonly StockService $stockService;
+
+    public function __construct(StockService $stockService)
+    {
+        $this->stockService = $stockService;
+    }
+
     public function index()
     {
+        $currency = $this->stockService->currency();
         $profit = Sale::sum('total_profit');
         $user = auth()->user();
         
@@ -18,9 +25,9 @@ class DashboardController extends Controller
         $todaysSales = Sale::whereDate('created_at', today())
             ->with('products')
             ->orderBy('created_at', 'desc')
-            ->get();
+            ->paginate(5);
 
-        return view('dashboard', compact('profit', 'user', 'todaysSales'));
+        return view('dashboard', compact('profit', 'user', 'todaysSales', 'currency'));
     }
 
 

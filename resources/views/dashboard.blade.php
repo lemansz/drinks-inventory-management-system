@@ -1,9 +1,12 @@
 <x-layout>
-    <div class="ml-48 p-8 bg-gray-50 min-h-screen">
+    <div class="p-8 bg-gray-50 min-h-screen">
         <!-- Dashboard Header -->
-        <div class="mb-8">
-            <h1 class="text-4xl font-bold text-gray-900">Dashboard</h1>
-            <p class="text-gray-600 mt-2">Welcome back! Here's your sales overview.</p>
+        <div class="mb-4">
+            <p class="text-gray-600 m-0 p-0">Hi, {{ $user->first_name }}!</p>
+        </div>
+
+        <div class="mb-2 flex">
+            <input class="border border-gray-400 bg-white p-1 rounded w-64 ml-auto" type="text">
         </div>
 
         <!-- Sales Made Today Section -->
@@ -24,6 +27,7 @@
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Total Amount</th>
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Profit</th>
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Time</th>
+                                <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -33,43 +37,52 @@
                                     <td class="px-4 py-3 text-sm text-gray-600">
                                         {{ $sale->products->count() }} item(s)
                                     </td>
-                                    <td class="px-4 py-3 text-sm font-semibold text-emerald-600">
-                                        PHP {{ number_format($sale->total_amount, 2) }}
-                                    </td>
                                     <td class="px-4 py-3 text-sm font-semibold text-blue-600">
-                                        PHP {{ number_format($sale->total_profit, 2) }}
+                                        {{ $currency }}{{ number_format($sale->total_amount, 2) }}
+                                    </td>
+                                    <td class="px-4 py-3 text-sm font-semibold text-emerald-600">
+                                        +{{ $currency }}{{ number_format($sale->total_profit, 2) }}
                                     </td>
                                     <td class="px-4 py-3 text-sm text-gray-500">
                                         {{ $sale->created_at->format('g:i A') }}
+                                    </td>
+                                    <td class="px-6 py-4 text-sm">
+                                        <a href="{{ route('sales.show', $sale) }}" class="text-blue-600 hover:text-blue-800 font-semibold">
+                                            View
+                                        </a>
                                     </td>
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
+                    <div class="mt-4" x-show="query === ''">
+                    {{ $todaysSales->links() }}
+            </div>
                 </div>
 
                 <!-- Summary Stats -->
                 <div class="grid grid-cols-3 gap-4 mt-8 pt-6 border-t border-gray-200">
-                    <div class="bg-emerald-50 rounded-lg p-4 border border-emerald-200">
+                    <div class="bg-blue-50 rounded-lg p-4 border border-blue-200">
                         <p class="text-gray-600 text-sm font-medium">Total Sales</p>
-                        <p class="text-3xl font-bold text-emerald-600 mt-2">
-                            PHP {{ number_format($todaysSales->sum('total_amount'), 2) }}
+                        <p class="text-3xl font-bold text-blue-600 mt-2">
+                            {{ $currency }}{{ number_format($todaysSales->sum('total_amount'), 2) }}
                         </p>
                     </div>
-                    <div class="bg-blue-50 rounded-lg p-4 border border-blue-200">
+                    <div class="bg-emerald-50 rounded-lg p-4 border border-emerald-200">
                         <p class="text-gray-600 text-sm font-medium">Total Profit</p>
-                        <p class="text-3xl font-bold text-blue-600 mt-2">
-                            PHP {{ number_format($todaysSales->sum('total_profit'), 2) }}
+                        <p class="text-3xl font-bold text-emerald-600 mt-2">
+                            {{ $currency }}{{ number_format($todaysSales->sum('total_profit'), 2) }}
                         </p>
                     </div>
                     <div class="bg-indigo-50 rounded-lg p-4 border border-indigo-200">
                         <p class="text-gray-600 text-sm font-medium">Transactions</p>
                         <p class="text-3xl font-bold text-indigo-600 mt-2">
-                            {{ $todaysSales->count() }}
+                            {{ $todaysSales->total() }}
                         </p>
                     </div>
                 </div>
-            @else
+
+                @else
                 <div class="text-center py-12">
                     <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
@@ -77,7 +90,11 @@
                     <h3 class="mt-2 text-lg font-medium text-gray-900">No sales today</h3>
                     <p class="mt-1 text-gray-500">Get started by making your first sale of the day.</p>
                 </div>
-            @endif
-        </div>
+                @endif
+            </div>
+            <!-- Dynamic charts -->
+            <div>
+                <p>Dynamic charts here</p>
+            </div>
     </div>
 </x-layout>

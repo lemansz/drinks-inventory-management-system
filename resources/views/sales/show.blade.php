@@ -3,7 +3,7 @@
         <div class="flex justify-between items-center mb-8">
             <div>
                 <h1 class="text-3xl font-bold text-gray-900">Sale #{{ $sale->id }}</h1>
-                <p class="text-gray-600 mt-2">{{ $sale->created_at->format('F d, Y - H:i A') }}</p>
+                <p class="text-gray-600 mt-2">{{ $sale->created_at->format('F d, Y - g:i A') }}</p>
             </div>
             <a href="{{ route('sales.index') }}" class="text-blue-600 hover:text-blue-800 font-semibold">
                 ← Back to Sales

@@ -44,6 +44,5 @@ Route::middleware(['auth'])->group(function(){
     Route::get('/settings', [SettingController::class, 'create'])->name('settings.create');
     Route::post('/settings/password', [SettingController::class, 'updatePassword'])->name('password.update');
     Route::post('/settings/email', [SettingController::class, 'updateEmail'])->name('email.update');
-
-    Route::post('/settings/here', [SettingController::class, 'inventoryPreference'])->name('settings.inventory.preference');
+    Route::post('/settings/preference', [SettingController::class, 'inventoryPreference'])->name('settings.inventory.preference');
 });
