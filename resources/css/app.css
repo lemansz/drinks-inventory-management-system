@@ -5,7 +5,6 @@
 @source '../**/*.blade.php';
 @source '../**/*.js';
 
-input::-ms-reveal,
 input::-ms-clear{
     display: none !important;
 }
