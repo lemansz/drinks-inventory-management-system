@@ -6,6 +6,7 @@ use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Database\Seeders\CategorySeeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -16,12 +17,15 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        User::factory()->create([
-            'surname' => 'Olalekan',
-            'first_name' => 'Micheal',
-            'email' => 'test@example.com',
-        ]);
-
+        User::updateOrCreate(
+            ['email' => 'admin@example.com'], // Prevents duplicates if run twice
+            [
+                'surname' => 'Admin',
+                'first_name' => 'User',
+                'password' => Hash::make('123456'),
+                'email_verified_at' => now(),
+            ]
+        );
 
 
         // seed categories
