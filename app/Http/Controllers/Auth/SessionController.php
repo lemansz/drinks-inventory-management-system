@@ -31,7 +31,7 @@ class SessionController extends Controller
         {
             $request->session()->regenerate();
 
-            return redirect('/dashboard')->with('success', 'You are now logged in!');
+            return redirect()->intended('/dashboard')->with('success', 'You are now logged in!');
         }
         
         return back()->withErrors([
@@ -47,7 +47,7 @@ class SessionController extends Controller
         $request->session()->regenerateToken();
 
     
-        return redirect('/login');
+        return redirect()->route('login');
     }
 }
 

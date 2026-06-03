@@ -11,20 +11,24 @@ use App\Http\Controllers\SettingController;
 use App\Http\Controllers\ReportController;
 
 Route::get('/', function () {
-    return view('auth.login');
+    return redirect()->route('login');
 });
 
 
-Route::get('/login', [SessionController::class, 'create']);
-Route::post('/login', [SessionController::class, 'store'])->name('login');
-Route::post('/forgot-password', [SettingController::class, 'forgotPassword'])->name('password.forgot');
+Route::middleware('guest')->group(function(){
+    Route::get('/login', [SessionController::class, 'create'])->name('login');
+    Route::post('/login', [SessionController::class, 'store']);
+    Route::post('/forgot-password', [SettingController::class, 'forgotPassword'])->name('password.forgot');
+});
 
-Route::get('/logout', [SessionController::class, 'destroy'])->name('logout');
+
 
 Route::middleware(['auth'])->group(function(){
+    Route::post('/logout', [SessionController::class, 'destroy'])->name('logout');
+
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/reports/download', [ReportController::class, 'downloadReport'])->name('reports.download');
- 
+    
 
     Route::get('/products/search', [ProductController::class, 'search'])->name('products.search');
     Route::resource('products', ProductController::class);

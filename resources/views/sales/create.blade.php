@@ -9,10 +9,10 @@
     @if($stockCount == 0)
         <x-empty-inventory />
     @else
-    <div class="max-w-6xl mx-auto py-8 px-4">
-        <div class="mb-8">
-            <h1 class="text-3xl font-bold text-gray-900">Record Sale</h1>
-            <p class="text-gray-600 mt-2">Search and add products to create a new sale</p>
+    <div class="max-w-6xl mx-auto py-4 md:py-8 px-3 md:px-4">
+        <div class="mb-6 md:mb-8">
+            <h1 class="text-2xl md:text-3xl font-bold text-gray-900">Record Sale</h1>
+            <p class="text-sm md:text-base text-gray-600 mt-2">Search and add products to create a new sale</p>
         </div>
 
         @if ($errors->any())
@@ -26,18 +26,18 @@
             </div>
         @endif
 
-        <x-forms.form action="{{ route('sales.store') }}" method="POST" formClass="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <x-forms.form action="{{ route('sales.store') }}" method="POST" formClass="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-8">
             <!-- === IDEMPOTENT TOKEN ===  -->
             <input type="hidden" name="_idempotency_token" value="{{ Str::uuid() }}">
 
             <!-- Left: Product Search -->
-            <div class="lg:col-span-2">
-                    <div class="bg-white rounded-lg shadow p-6">
-                        <h2 class="text-lg font-semibold text-gray-900 mb-4">Add Products</h2>
+            <div class="lg:col-span-2 order-1 lg:order-1">
+                    <div class="bg-white rounded-lg shadow p-4 md:p-6">
+                        <h2 class="text-base md:text-lg font-semibold text-gray-900 mb-4">Add Products</h2>
                         
                         <!-- Search Bar -->
-                        <div class="mb-6">
-                            <label for="productSearch" class="block text-sm font-medium text-gray-700 mb-2">
+                        <div class="mb-4 md:mb-6">
+                            <label for="productSearch" class="block text-xs md:text-sm font-medium text-gray-700 mb-2">
                                 Search Products
                             </label>
                             <div class="relative">
@@ -48,7 +48,7 @@
                                     class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                                     autocomplete="off"
                                 >
-                                <div id="searchResults" class="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-300 rounded-lg shadow-lg z-10 hidden max-h-64 overflow-y-auto">
+                                <div id="searchResults" class="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-300 rounded-lg shadow-lg z-50 hidden max-h-48 md:max-h-64 overflow-y-auto">
                                     <!-- Results will be populated here -->
                                 </div>
                             </div>
@@ -68,39 +68,39 @@
                 </div>
 
                 <!-- Right: Order Summary -->
-                <div class="lg:col-span-1">
-                    <div class="bg-white rounded-lg shadow p-6 sticky top-20">
-                        <h2 class="text-lg font-semibold text-gray-900 mb-4">Order Summary</h2>
+                <div class="lg:col-span-1 order-2 lg:order-2">
+                    <div class="bg-white rounded-lg shadow p-4 md:p-6 sticky top-4 lg:top-20">
+                        <h2 class="text-base md:text-lg font-semibold text-gray-900 mb-4">Order Summary</h2>
                         
                         <!-- Summary Table -->
-                        <div id="summaryTable" class="mb-6">
+                        <div id="summaryTable" class="mb-4 md:mb-6 text-sm">
                             <div class="text-center text-gray-500 py-4">
                                 <p>Add products to see summary</p>
                             </div>
                         </div>
 
                         <!-- Notes -->
-                        <div class="mb-6">
-                            <label for="notes" class="block text-sm font-medium text-gray-700 mb-2">
+                        <div class="mb-4 md:mb-6">
+                            <label for="notes" class="block text-xs md:text-sm font-medium text-gray-700 mb-2">
                                 Notes (Optional)
                             </label>
                             <textarea 
                                 id="notes" 
                                 name="notes" 
                                 rows="3" 
-                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 placeholder="Add any notes about this sale..."
                             ></textarea>
                         </div>
 
-                        <div class="mb-6 p-3 bg-gray-50 rounded-lg border border-gray-200">
+                        <div class="mb-4 md:mb-6 p-3 bg-gray-50 rounded-lg border border-gray-200">
                             <label class="flex items-center cursor-pointer group">
                                 <div class="relative">
                                     <input type="checkbox" name="auto_print" id="autoPrint" checked class="sr-only">
                                     <div class="block bg-gray-300 w-10 h-6 rounded-full transition shadow-inner"></div>
                                     <div class="dot absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition shadow"></div>
                                 </div>
-                                <span class="ml-3 text-sm font-medium text-gray-700 group-hover:text-blue-600 transition">
+                                <span class="ml-3 text-xs md:text-sm font-medium text-gray-700 group-hover:text-blue-600 transition">
                                     Print Receipt automatically
                                 </span>
                             </label>
@@ -113,12 +113,12 @@
                         </style>
 
                         <!-- Totals -->
-                        <div class="border-t pt-4 mb-6">
-                            <div class="flex justify-between mb-3">
+                        <div class="border-t pt-4 mb-4 md:mb-6">
+                            <div class="flex justify-between mb-2 md:mb-3 text-xs md:text-sm">
                                 <span class="text-gray-600">Subtotal:</span>
                                 <span id="subtotal" class="font-semibold">0.00</span>
                             </div>
-                            <div class="flex justify-between mb-3 text-xl">
+                            <div class="flex justify-between mb-3 text-lg md:text-xl">
                                 <span class="font-bold text-gray-900">Total:</span>
                                 <span id="total" class="font-bold text-blue-600">0.00</span>
                             </div>
@@ -128,7 +128,7 @@
                         <button 
                             type="submit" 
                             id="submitBtn" 
-                            class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition disabled:bg-gray-400 disabled:cursor-not-allowed flex align-middle justify-center gap-1"
+                            class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 md:py-2 px-4 text-sm md:text-base rounded-lg transition disabled:bg-gray-400 disabled:cursor-not-allowed flex align-middle justify-center gap-1"
                             disabled
                         >
                         <span id="saleText" class="">Record Sale</span>
@@ -412,23 +412,23 @@
 
             // Render cart items
             cartItemsDiv.innerHTML = cart.map(item => `
-                <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
-                    <div class="flex justify-between items-start mb-3">
-                        <div>
-                            <h3 class="font-semibold text-gray-900">${item.product_name}</h3>
-                            <p class="text-sm text-gray-500">{!! $currency !!}${parseFloat(item.price_per_unit).toFixed(2)} per unit</p>
+                <div class="bg-gray-50 p-3 md:p-4 rounded-lg border border-gray-200">
+                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2 sm:gap-3 mb-3">
+                        <div class="flex-1 min-w-0">
+                            <h3 class="font-semibold text-sm md:text-base text-gray-900 truncate">${item.product_name}</h3>
+                            <p class="text-xs md:text-sm text-gray-500">{!! $currency !!}${parseFloat(item.price_per_unit).toFixed(2)}/unit</p>
                         </div>
                         <button 
                             type="button" 
                             onclick="removeFromCart(${item.product_id})"
-                            class="text-red-500 hover:text-red-700 font-semibold"
+                            class="text-xs md:text-sm text-red-500 hover:text-red-700 font-semibold px-2 py-1 rounded hover:bg-red-50 whitespace-nowrap"
                         >
                             Remove
                         </button>
                     </div>
-                    <div class="flex items-center gap-2">
-                        <label class="text-sm text-gray-700">Qty:</label>
-                        <button type="button" class="px-2 py-1 bg-gray-200 hover:bg-gray-300 rounded" onclick="decrementQuantity(${item.product_id})">−</button>
+                    <div class="flex flex-wrap items-center gap-1 md:gap-2">
+                        <label class="text-xs md:text-sm text-gray-700 whitespace-nowrap">Qty:</label>
+                        <button type="button" class="px-2 py-1 text-sm md:text-base bg-gray-200 hover:bg-gray-300 rounded active:bg-gray-400" onclick="decrementQuantity(${item.product_id})">−</button>
                         <input 
                             type="text" 
                             id="qty-${item.product_id}"
@@ -438,17 +438,14 @@
                             max="${item.stock}"
                             oninput="updateQuantityLive(${item.product_id}, this.value)"
                             onchange="updateQuantity(${item.product_id}, this.value)"
-                            class="w-20 px-2 py-1 border border-gray-300 rounded text-center focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            class="w-16 md:w-20 px-2 py-1 text-xs md:text-sm border border-gray-300 rounded text-center focus:outline-none focus:ring-2 focus:ring-blue-500"
                         >
-                        <button type="button" class="px-2 py-1 bg-gray-200 hover:bg-gray-300 rounded" onclick="incrementQuantity(${item.product_id})">+</button>
-                        <span class="text-sm text-gray-600">/ ${item.stock}</span>
-                        <button type="button" class="border text-sm p-0.5 rounded border-gray-300" onclick="addCrate(${item.product_id}, ${item.crate})">
-                            Crate
-                            <div class="text-xs">
-                               x${item.crate}
-                            </div>
+                        <button type="button" class="px-2 py-1 text-sm md:text-base bg-gray-200 hover:bg-gray-300 rounded active:bg-gray-400" onclick="incrementQuantity(${item.product_id})">+</button>
+                        <span class="text-xs md:text-sm text-gray-600 whitespace-nowrap">/${item.stock}</span>
+                        <button type="button" class="border text-xs md:text-sm p-1 md:p-0.5 rounded border-gray-300 hover:bg-gray-100 whitespace-nowrap" onclick="addCrate(${item.product_id}, ${item.crate})">
+                            Crate x${item.crate}
                         </button>
-                        <span class="ml-auto font-semibold">{!! $currency !!}${(item.quantity_sold * item.price_per_unit).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span>
+                        <span class="ml-auto font-semibold text-xs md:text-sm text-blue-600">{!! $currency !!}${(item.quantity_sold * item.price_per_unit).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span>
                     </div>
                 </div>
             `).join('');
