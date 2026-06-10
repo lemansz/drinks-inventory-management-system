@@ -4,11 +4,8 @@
         <x-empty-inventory />
     @else
 
-
     @if (session('success'))
-        <div class="absolute right-0 top-0">
-            <x-alert :message="session('success')" :show='true'/>
-        </div>
+        <x-alert :message="session('success')" :show="true" />
     @endif
 
     <div x-data="searchProducts()" class="p-4">

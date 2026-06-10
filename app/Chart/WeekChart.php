@@ -7,8 +7,8 @@ use ArielMejiaDev\LarapexCharts\LarapexChart;
 
 class WeekChart
 {
-    protected $chart;
-    protected $chartService;
+    protected LarapexChart $chart;
+    protected ChartService $chartService;
 
     public function __construct(LarapexChart $chart, ChartService $chartService)
     {
@@ -25,6 +25,19 @@ class WeekChart
             ->addData($data['sales'], 'Sales')
             ->addData($data['profit'], 'Profit')
             ->setXAxis($data['labels'])
-            ->setHeight(350);
+            ->setHeight(350)
+            ->setOptions([
+                'xaxis' => [
+                    'type' => 'category',
+                    'convertedCatToNumeric' => false,
+                ],
+                'plotOptions' => [
+                    'bar' => [
+                        'horizontal' => false,
+                        'columnWidth' => '55%',
+                        'endingShape' => 'rounded'
+                    ]
+                ]
+            ]);
     }
 }

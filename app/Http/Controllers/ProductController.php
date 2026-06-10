@@ -82,12 +82,12 @@ class ProductController extends Controller
     public function store(StoreProductRequest $request)
     {
         $token = $request->input('_idempotency_token');
-        $expiry = Carbon::now()->addMinutes(30);
+        $expiry = Carbon::now()->addMinutes(10);
 
         //Prevent duplicate processing
         $cacheKey = "idempotency:product:{$token}";
 
-        if (!$token || !Cache::add($cacheKey, true, $expiry))
+        if (!Cache::add($cacheKey, true, $expiry))
         {
             return back()->withInput()->with('warning', 'This product was already added successfully. Please check the product list');
         }

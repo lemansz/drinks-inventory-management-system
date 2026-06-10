@@ -7,8 +7,8 @@ use ArielMejiaDev\LarapexCharts\LarapexChart;
 use Carbon\Carbon;
 
 class MonthChart {
-    protected $chart;
-    protected $chartService;
+    protected LarapexChart $chart;
+    protected ChartService $chartService;
 
     public function __construct(LarapexChart $chart, ChartService $chartService)
     {

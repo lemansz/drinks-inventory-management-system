@@ -1,9 +1,10 @@
 <x-layout>
-    <!-- Kept max-w-6xl but ensured padding stays balanced on mobile screens (py-6 px-4 md:py-8) -->
+    @if (session('success'))
+        <x-alert :message="session('success')" :show="true" />
+    @endif
+   
     <div class="max-w-6xl mx-auto py-6 px-4 md:py-8">
         
-        <!-- Header Section -->
-        <!-- Changes: Flexes to a stacked column on mobile, drops items to center layout, and widens button to full-width -->
         <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-8">
             <div>
                 <h1 class="text-2xl md:text-3xl font-bold text-gray-900">Sales Records</h1>
@@ -16,11 +17,7 @@
             </div>
         </div>
 
-        @if (session('success'))
-            <div class="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg">
-                <p class="text-sm md:text-base text-green-700">{{ session('success') }}</p>
-            </div>
-        @endif
+
 
         @if ($sales->isEmpty())
             <div class="bg-white rounded-lg shadow p-8 md:p-12 text-center">
@@ -30,8 +27,6 @@
                 </a>
             </div>
         @else
-            <!-- Responsive Table Container Wrapper -->
-            <!-- Changes: Added overflow-x-auto, stripped layout margins safely using negative properties for mobile viewport edge alignment -->
             <div class="bg-white rounded-lg shadow overflow-hidden -mx-4 sm:mx-0">
                 <div class="overflow-x-auto">
                     <table class="w-full min-w-[700px]">

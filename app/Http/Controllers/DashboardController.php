@@ -34,7 +34,7 @@ class DashboardController extends Controller
 
         $currency = $this->stockService->currency();
 
-        $user = auth()->user();
+        $user = $request->user();
 
         
         // Fetch today's sales

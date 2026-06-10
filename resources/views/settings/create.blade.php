@@ -1,9 +1,8 @@
 <x-layout>
-    @if (session('success'))
-        <div class="absolute right-0 top-0">
-            <x-alert :message="session('success')" :show='true'/>
-        </div>
-    @endif
+   @if (session('success'))
+    <x-alert :message="session('success')" :show="true" />
+   @endif
+
     <div class="ml-0 p-3 md:p-6 lg:p-8 bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen">
         <!-- Header -->
         <div class="mb-6 md:mb-8">

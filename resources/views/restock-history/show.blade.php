@@ -13,6 +13,10 @@
                 <span class="text-sm font-medium text-gray-900">{{ $log->product->name }}</span>
             </div>
             <div class="px-6 py-4 flex justify-between items-center">
+                <span class="text-sm text-gray-500">Amount</span>
+                <span class="text-sm font-medium text-gray-900">{{ $currency }}{{ number_format($log->total_cost, 2) }}</span>
+            </div>
+            <div class="px-6 py-4 flex justify-between items-center">
                 <span class="text-sm text-gray-500">Crates Restocked</span>
                 <span class="text-sm font-medium text-gray-900">{{ $log->crates }}</span>
             </div>
@@ -26,7 +30,7 @@
             </div>
             <div class="px-6 py-4 flex justify-between items-center">
                 <span class="text-sm text-gray-500">Unit Cost (at time)</span>
-                <span class="text-sm font-medium text-gray-900">{{ $currency }}{{ number_format($log->total_cost, 2) }}</span>
+                <span class="text-sm font-medium text-gray-900">{{ $currency }}{{ number_format($log->unit_cost, 2) }}</span>
             </div>
             <div class="px-6 py-4 flex justify-between items-center">
                 <span class="text-sm text-gray-500">Supplier (at time)</span>

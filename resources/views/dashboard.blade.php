@@ -1,9 +1,11 @@
 <x-layout>
-    <!-- Adjusted page wrapper to use smaller padding on mobile (p-4) and normal padding on desktop (md:p-8) -->
+    
+    @if (session('success'))
+        <x-alert :message="session('success')" :show="true" />
+    @endif
+
     <div class="p-4 md:p-8 bg-gray-50 min-h-screen">
         
-        <!-- Dashboard Header & Button Row -->
-        <!-- Changes: Flexes to column layout on mobile to prevent the button from colliding with text -->
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
             <div>
                 <p class="text-gray-600 m-0 p-0 text-xl md:text-2xl">Hi, {{ $user->first_name }}!</p>
@@ -66,12 +68,10 @@
                     </table>
                 </div>
 
-                <div class="mt-4" x-show="query === ''">
+                <div class="mt-4">
                     {{ $todaysSales->links() }}
                 </div>
 
-                <!-- Summary Stats Block -->
-                <!-- Changes: Swapped grid-cols-3 to grid-cols-1 on mobile, scaling cleanly up to grid-cols-3 on desktop -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-8 pt-6 border-t border-gray-200">
                     <div class="bg-blue-50 rounded-lg p-4 border border-blue-200">
                         <p class="text-gray-600 text-sm font-medium">Total Sales</p>
@@ -104,8 +104,6 @@
             @endif
         </div>
 
-        <!-- Download Sales Report Card -->
-        <!-- Changes: Removed inline flex styles; applied unified Tailwind utility form styling -->
         <div class="report-section bg-white p-4 md:p-6 border border-gray-200 rounded-lg shadow-md mb-8">
             <h3 class="text-lg font-semibold text-gray-900 mb-4">Download Sales Report</h3>
             
@@ -141,7 +139,6 @@
                 </a>
             </div>
 
-            <!-- ApexCharts handles sizing automatically when given a clean fluid responsive wrapper -->
             <div class="mt-2 bg-white p-4 rounded-lg shadow-md border border-gray-200 overflow-x-hidden w-full">
                 {!! $chart->container() !!}
                 {{ $chart->script() }}
@@ -149,4 +146,12 @@
         </div>
 
     </div>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(function() {
+            window.dispatchEvent(new Event('resize'));
+        }, 150);
+    });
+</script>
+
 </x-layout>

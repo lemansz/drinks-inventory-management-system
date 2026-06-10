@@ -23,15 +23,16 @@ class StoreProductRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'              => ['required', 'string'],
-            'category_id'       => ['required', 'integer'],
-            'cost_per_unit'     => ['required', 'numeric', 'min:1'],
-            'selling_price'     => ['required', 'numeric', 'gt:cost_per_unit'],
-            'crates_available'  => ['required', 'integer', 'min:1'],
-            'pieces_per_crate'  => ['required', 'integer', 'min:1'],
-            'supplier'          => ['required', 'string', 'min:3'],
-            'supplier_phone_no' => ['required', 'numeric', 'digits:11'],
-            'photo'             => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:5120']
+            '_idempotency_token' => ['required', 'string', 'uuid'],
+            'name'               => ['required', 'string', 'max:255'],
+            'category_id'        => ['required', 'integer'],
+            'cost_per_unit'      => ['required', 'numeric', 'min:1'],
+            'selling_price'      => ['required', 'numeric', 'gt:cost_per_unit'],
+            'crates_available'   => ['required', 'integer', 'min:1'],
+            'pieces_per_crate'   => ['required', 'integer', 'min:1'],
+            'supplier'           => ['required', 'string', 'min:3'],
+            'supplier_phone_no'  => ['required', 'numeric', 'digits:11'],
+            'photo'              => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:5120']
         ];
     }
 

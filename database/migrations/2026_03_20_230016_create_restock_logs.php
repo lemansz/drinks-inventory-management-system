@@ -16,8 +16,8 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(Product::class);
             $table->integer('crates');
-            $table->integer('unit_cost');
-            $table->integer('total_cost');
+            $table->decimal('unit_cost', 10, 2);
+            $table->decimal('total_cost', 10, 2);
             $table->integer('unit_per_crate');
             $table->integer('total_unit');
             $table->timestamp('restocked_at')->nullable();

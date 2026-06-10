@@ -7,6 +7,8 @@ use App\Models\Product;
 use App\Services\StockService;
 use App\Models\RestockLog;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Cache;
+use Carbon\Carbon;
 
 class RestockController extends Controller
 {
@@ -34,8 +36,20 @@ class RestockController extends Controller
     public function store (Request $request, Product $product)
     {
         $data = $request->validate([
-            'crates' => 'required|integer|min:1'
+            '_idempotency_token' => ['required', 'string', 'uuid'],
+            'crates'             => ['required', 'integer', 'min:1']
         ]);
+
+        $token = $request->input('_idempotency_token');
+        $expiry = Carbon::now()->addMinutes(10);
+
+        //Prevent duplicate processing
+        $cacheKey = "idempotency:product:{$token}";
+
+        if (!Cache::add($cacheKey, true, $expiry))
+        {
+            return back()->withInput()->with('warning', 'You have already completed restock operation. Please check the product list');
+        }
 
         $totalUnits = $data['crates'] * $product->pieces_per_crate;
         $totalCost = $totalUnits * $product->cost_per_unit;

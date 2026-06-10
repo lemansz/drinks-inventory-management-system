@@ -31,6 +31,7 @@ Route::middleware(['auth'])->group(function(){
     
 
     Route::get('/products/search', [ProductController::class, 'search'])->name('products.search');
+    Route::post('products/{product}', [ProductController::class, 'update'])->name('products.update');
     Route::resource('products', ProductController::class);
     
     Route::get('/search-products', [SaleController::class, 'search'])->name('sales.search');

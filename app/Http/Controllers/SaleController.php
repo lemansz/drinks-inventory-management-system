@@ -60,15 +60,19 @@ class SaleController extends Controller
     
     public function store(Request $request)
     {
+        $data = $request->validate([
+            '_idempotency_token' => ['required', 'string', 'uuid'],
+            'notes'              => ['nullable','string','max:500'],
+        ]);
         
         // Idempotency check
         $token = $request->input('_idempotency_token');
-        $expiry = Carbon::now()->addMinutes(30);
+        $expiry = Carbon::now()->addMinutes(10);
 
         //Prevent duplicate processing
         $cacheKey = "idempotency:sale:{$token}";
 
-        if (!$token || !Cache::add($cacheKey, true, $expiry))
+        if (!Cache::add($cacheKey, true, $expiry))
         {
             return back()->withInput()->with('warning', 'This sale was already recorded successfully. Please check the sales list');
         }
@@ -76,9 +80,6 @@ class SaleController extends Controller
         // Parse items from JSON string to array
         $items = json_decode($request->input('items'), true) ?? [];
         
-        $validated = $request->validate([
-            'notes' => 'nullable|string|max:500'
-        ]);
 
         // Validate items manually
         if (empty($items)) {
@@ -98,7 +99,7 @@ class SaleController extends Controller
             // Create the sale record
             $sale = Sale::create([
                 'total_amount' => 0,
-                'notes' => $validated['notes'] ?? null
+                'notes' => $data['notes'] ?? null
             ]);
 
             $totalAmount = 0;

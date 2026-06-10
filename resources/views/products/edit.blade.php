@@ -36,7 +36,7 @@
                         </div>
                     </div>
 
-                    <x-forms.form method="POST" action="{{ route('products.update', $product->id) }}" formClass="space-y-6">
+                    <x-forms.form method="POST" action="{{ route('products.update', $product->id) }}" enctype="multipart/form-data" formClass="space-y-6">
                         <!-- Product Information Section -->
                         <div class="border-b border-gray-200 pb-6">
                             <h2 class="text-lg font-semibold text-gray-900 mb-4">Product Information</h2>
@@ -91,23 +91,65 @@
                         </div>
 
                         <!-- Action Buttons -->
-                        <div class="flex gap-4 pt-6">
-                            <button type="submit" class="flex-1 bg-emerald-900 hover:bg-emerald-800 text-white font-semibold py-3 px-6 rounded-lg transition duration-200 flex items-center justify-center gap-2">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                </svg>
-                                Save Changes
-                            </button>
-                            <a href="{{ route('products.show', $product->id) }}" class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-3 px-6 rounded-lg transition duration-200 flex items-center justify-center gap-2">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                                </svg>
-                                Cancel
-                            </a>
-                        </div>
+                        <div class="grid grid-cols-2 gap-3 sm:gap-4 pt-4 border-t border-gray-100">
+    
+                        <!-- Cancel Button -->
+                        <a href="{{ route('products.show', $product->id) }}" class="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-2.5 px-4 text-xs md:text-base rounded-xl transition text-center flex items-center justify-center gap-1.5">
+                            <svg class="w-4 h-4 md:w-5 md:h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                            <span class="truncate">Cancel</span>
+                        </a>
+
+                       
+                        <button type="submit" id="updateProductBtn" class="w-full bg-emerald-900 hover:bg-emerald-800 text-white font-semibold py-2.5 px-4 text-xs md:text-base rounded-xl transition shadow-sm flex items-center justify-center gap-1.5">
+                            <!-- Check Icon -->
+                            <svg id="checkIcon" class="w-4 h-4 md:w-5 md:h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+
+                            <svg id="updateSpinner" class="hidden w-4 h-4 md:w-5 md:h-5 animate-spin flex-shrink-0" xmlns="http://w3.org" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+
+                            <span id="updateBtnTxt" class="truncate">Save Changes</span>
+                        </button>
+                        
+                    </div>
                     </x-forms.form>
                 </div>
             </div>
         </div>
     </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const updateProductBtn = document.getElementById('updateProductBtn');
+    const updateSpinner = document.getElementById('updateSpinner');
+    const checkIcon = document.getElementById('checkIcon');
+    const updateBtnTxt = document.getElementById('updateBtnTxt');
+
+    if (updateProductBtn) {
+      updateProductBtn.addEventListener('click', function(e) {
+
+        e.preventDefault();
+
+        const actualForm = updateProductBtn.closest('form');
+        
+        if (actualForm) {
+
+          updateProductBtn.disabled = true;
+          updateProductBtn.classList.add('opacity-75', 'cursor-not-allowed');
+          checkIcon.classList.add('hidden');
+          updateSpinner.classList.remove('hidden');
+          updateBtnTxt.textContent = 'Saving...';
+
+          actualForm.submit();
+        }
+      });
+    }
+  });
+</script>
+
 </x-layout>

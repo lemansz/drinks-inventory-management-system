@@ -31,7 +31,7 @@ class ChartService
             $key = $date->toDateString();
 
             return [
-                'day' => $date->format('l j'),
+                'day' => $date->format('D j'),
                 'sales' => $sales[$key]->total_amount ?? 0,
                 'profit' => $sales[$key]->total_profit ?? 0,
             ];
@@ -72,7 +72,7 @@ class ChartService
             $key = $date->toDateString();
 
         return [
-            'day' => $date->format('l j'),
+            'day' => $date->format('D j'),
             'sales' => $sales[$key]->total_amount ?? 0,
             'profit' => $sales[$key]->total_profit ?? 0,
         ];

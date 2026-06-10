@@ -88,10 +88,9 @@
         </div>
 
         <!-- Sticky Bottom Log Out -->
-       <form method="POST" action="{{ route('logout') }}" class="hover:bg-emerald-800 rounded mt-auto pt-4 pb-16 md:pb-0">
+       <form method="POST" action="{{ route('logout') }}" class="hover:bg-emerald-800 rounded mt-auto pt-4 pb-16 md:pb-0 ml-4 mb-4">
             @csrf
             <button type="submit" class="w-full text-left text-white py-3 rounded flex items-center px-2">
-                <!-- Keep your custom icon asset here -->
                 <img src="{{ asset('images/log-out-icon.svg') }}" class="w-5 h-5 mr-2" alt="Logout">
                 <span class="text-sm tracking-wider">Log Out</span>
             </button>

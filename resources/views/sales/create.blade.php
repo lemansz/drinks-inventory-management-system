@@ -27,7 +27,7 @@
         @endif
 
         <x-forms.form action="{{ route('sales.store') }}" method="POST" formClass="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-8">
-            <!-- === IDEMPOTENT TOKEN ===  -->
+            
             <input type="hidden" name="_idempotency_token" value="{{ Str::uuid() }}">
 
             <!-- Left: Product Search -->
@@ -149,7 +149,7 @@
 
     @endif
 
-    <script>
+  <script>
         let cart = [];
         const searchInput = document.getElementById('productSearch');
         const searchResults = document.getElementById('searchResults');
@@ -475,22 +475,31 @@
             `;
         }
 
-        // Form submission
-        saleForm.addEventListener('submit', function(e) {
+    // Form submission
+
+    if (submitBtn) {
+        submitBtn.addEventListener('click', function(e) {
+            
+            e.preventDefault();
+
             if (cart.length === 0) {
-                e.preventDefault();
                 alert('Please add at least one product to the sale');
                 return;
             }
-            submitBtn.disabled = true;
-            spinner.classList.remove('hidden');
-            saleText.textContent = 'Recording sale... ';
-            
-            // Ensure cart data is synced to hidden input before submission
-            cartDataInput.value = JSON.stringify(cart);
-        });
 
-        // Initialize
-        renderCart();
-    </script>
+            const actualForm = submitBtn.closest('form');
+            
+            if (actualForm) {
+                cartDataInput.value = JSON.stringify(cart);
+
+                submitBtn.disabled = true;
+                spinner.classList.remove('hidden');
+                saleText.textContent = 'Recording sale...';
+
+                actualForm.submit();
+            }
+        });
+    }
+    renderCart();
+  </script>
 </x-layout>
