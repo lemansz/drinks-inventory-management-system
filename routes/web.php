@@ -17,8 +17,8 @@ Route::get('/', function () {
 
 Route::middleware('guest')->group(function(){
     Route::get('/login', [SessionController::class, 'create'])->name('login');
-    Route::post('/login', [SessionController::class, 'store']);
-    Route::post('/forgot-password', [SettingController::class, 'forgotPassword'])->name('password.forgot');
+    Route::post('/login', [SessionController::class, 'store'])->middleware('throttle:login');
+    Route::post('/forgot-password', [SettingController::class, 'forgotPassword'])->name('password.forgot')->middleware('throttle:password-reset');;
 });
 
 
